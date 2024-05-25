@@ -18,7 +18,8 @@ class PinPage(PageObject):
     table_employee_card_list  = (By.CSS_SELECTOR, '[role="row"]')
     input_employee_name_filter = (By.XPATH, '//input[@placeholder="Type for hints..."]')  
     input_employee_supervisor_name_filter = (By.CSS_SELECTOR, '[class="oxd-autocomplete-text-input oxd-autocomplete-text-input--active"]')
-    
+    dropdown_list = (By.CSS_SELECTOR, '[class="oxd-icon bi-caret-down-fill oxd-select-text--arrow"]')
+
     # PIM - EMPLOYEE PROFILE DETAILS
     label_employee_name = (By.CSS_SELECTOR,'h6[class="oxd-text oxd-text--h6 --strong"]')
     input_employee_name = (By.NAME, 'firstName')
@@ -31,6 +32,13 @@ class PinPage(PageObject):
     def go_to_pin_menu(self):
         self.driver.get(self.base_url)  
     
+    def send_keys_on_employee_name_filter(self, text: str):
+        self.driver.find_element(*self.input_employee_name_filter).send_keys(text)
+    
+    def send_keys_on_employee_supervisor_name_filter(self, text: str):
+        self.driver.find_element(*self.input_employee_supervisor_name_filter).send_keys(text)
+
+
     def click_on_edit_employee_button(self):
         cards_list = self.driver.find_elements(*self.table_employee_card_list)
         card = random.choice(cards_list)
@@ -39,7 +47,7 @@ class PinPage(PageObject):
     def get_employee_name(self):
         # Esse wait também não funciona, incluí um time.sleep
         # employee_name = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.label_employee_name))
-        # time.sleep(10)
+        time.sleep(10)
         return self.driver.find_element(*self.label_employee_name).text
 
     def edit_employee_name(self):
