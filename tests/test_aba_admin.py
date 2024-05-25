@@ -3,10 +3,10 @@ import pytest
 import logging
 import time
 
-from pages                          import LoginPage
 from selenium.webdriver.support     import expected_conditions as ec
 
 from util import constants
+from pages.page_login import LoginPage
 
 @pytest.fixture(scope="class", autouse=True)
 def before_after_all():
@@ -16,13 +16,13 @@ def before_after_all():
 
 class TestAbaAdmin:
 
-    def test_login_page_success_for_standard_user(self, driver):
-        logging.info("Teste1")
-        pass
-
-    def test_login2_page_success_for_standard_user(self, driver):
-        logging.info("Teste2")
-        pass
+    def test_login_page_success_for_standard_user(self, logged_setup):
+        driver = logged_setup
+        time.sleep(10)
+        
+        
+        
+    
 
 
        

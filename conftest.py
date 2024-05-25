@@ -2,13 +2,13 @@ import pytest
 import logging
 
 from selenium import webdriver
-from pages    import LoginPage
+from pages.page_login    import LoginPage
 
 
 @pytest.fixture
-def driver():
-    
-    login_obj = LoginPage()
-    driver = login_obj.login()
-    yield driver
+def logged_setup():
+    driver = webdriver.Chrome()
+    driver.implicitly_wait(15)
+    login_obj = LoginPage(driver)
+    yield login_obj.login()
     driver.quit()
