@@ -16,8 +16,11 @@ class PinPage(PageObject):
     
     # PIM - MAIN PAGE
     table_employee_card_list  = (By.CSS_SELECTOR, '[role="row"]')
-
+    input_employee_name_filter = (By.XPATH, '//input[@placeholder="Type for hints..."]')  
+    input_employee_supervisor_name_filter = (By.CSS_SELECTOR, '[class="oxd-autocomplete-text-input oxd-autocomplete-text-input--active"]')
+    
     # PIM - EMPLOYEE PROFILE DETAILS
+    label_employee_name = (By.CSS_SELECTOR,'h6[class="oxd-text oxd-text--h6 --strong"]')
     input_employee_name = (By.NAME, 'firstName')
     buttons_save_list = (By.CSS_SELECTOR, '[class="oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"]')
     
@@ -33,29 +36,30 @@ class PinPage(PageObject):
         card = random.choice(cards_list)
         card.click()
 
-       
-
+    def get_employee_name(self):
+        # Esse wait também não funciona, incluí um time.sleep
+        # employee_name = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.label_employee_name))
+        # time.sleep(10)
+        return self.driver.find_element(*self.label_employee_name).text
 
     def edit_employee_name(self):
-        fake = Faker()
-        random_name = fake.name()
-        # random_name = "Aaron"
-        logging.info(random_name)
-            
-        # Por algum motivo, esse Wait não funciona direito, está intermitente
+        
+        # Esse Wait não funciona
         e = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.input_employee_name))
-        # Por algum motivo, locator.clear() não funcionava, tive que colocar este CTRL+A e posteriormente apagar
-        # Vou deixar o time.sleep comentado, mas só assim o teste funciona.
-        # time.sleep(5)
-        # e.send_keys(Keys.CONTROL+"A")
-        # time.sleep(5)
-        e.send_keys(Keys.BACKSPACE*len(e.text))
-        # time.sleep(10)
-        # e.clear()
-        e.send_keys(random_name)
+        # Deixei esse time.sleep também
+        time.sleep(5)
+        e.send_keys("TEST")
+        
+        # Esse Wait também não funciona
+        buttons = WebDriverWait(self.driver, 15).until(EC.visibility_of_all_elements_located(self.buttons_save_list))
+        
+        # Tentei de vários jeitos talvez seja bug no componente, não sei, deixei o teste aqui mais para conhecimento
+        # Sem os 'time.sleep' nada funciona nessa página
+        time.sleep(5)
+
+        buttons[0].click()
         time.sleep(10)
-        buttons = self.driver.find_elements(*self.buttons_save_list)
-       
-        save_button = buttons[0]
-        save_button.click()
+        # Este wait abaixo também não funciona, impressionante, deixei o time.sleep acima
+        # employee_name = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.label_employee_name))
+
         

@@ -1,6 +1,7 @@
 
 import time
 import pytest
+import logging
 from pages.page_pin import PinPage
 
 class TestAbaPin:
@@ -11,6 +12,7 @@ class TestAbaPin:
         page_pin.go_to_pin_menu()
         page_pin.click_on_edit_employee_button()
         page_pin.edit_employee_name()
-        page_pin.driver.refresh()
+        logging.info(page_pin.get_employee_name())
+        assert "TEST" in page_pin.get_employee_name()
 
 
