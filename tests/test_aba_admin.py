@@ -19,12 +19,5 @@ class TestAbaAdmin:
     def test_login_page_success_for_standard_user(self, logged_setup):
         driver = logged_setup
         page_admin = AdminPage(driver)
-        sleep(5)
         page_admin.clicar_menu_adm()
-        sleep(5)
-        
-        
-    
-
-
-       
+        assert driver.current_url == constants.URL_viewSystemUsers
