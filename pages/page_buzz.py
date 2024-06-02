@@ -17,6 +17,7 @@ class PageBuzz(PageObject):
     number_like_elements = (By.XPATH, '//p[@class="oxd-text oxd-text--p orangehrm-buzz-stats-active"]')#ELEMENTOS COM OS NUMEROS DE LIKE
     share_post_open_elements = (By.XPATH, '//i[@class="oxd-icon bi-share-fill"]')   # ELEMENTO DOS SHARE
     share_popup_title = (By.XPATH, '//p[@class="oxd-text oxd-text--p oxd-text--card-title"]')
+    share_popup_button = (By.XPATH, '//button[normalize-space()="Share"]')
 
 
     def __init__(self, driver):
@@ -37,9 +38,9 @@ class PageBuzz(PageObject):
         self.driver.find_element(*self.post_button).click()
 
     #FUNÇÃO PARA CHECAR SE O POST FEITO ESTÁ NA PÁGINA
-    def check_post(self):
+    def check_post(self, message='TESTANDO A CRIAÇÃO DO POST'):
         all_posts = self.driver.find_elements(*self.post_text_element)
-        return all_posts[0].text == 'TESTANDO A CRIAÇÃO DO POST'
+        return all_posts[0].text == message
 
     def like_post(self):
         all_like_posts = self.driver.find_elements(*self.like_heart_button_elements)
@@ -63,8 +64,13 @@ class PageBuzz(PageObject):
         wait.until(lambda d : title_share_popup.is_displayed())
         return title_share_popup.text == 'Share Post'
 
-    #def share_post(self):
-        #e = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.input_employee_name))
+    def share_post(self):
+        share_post_elements = self.driver.find_elements(*self.input_post)
+        share_post_elements[1].send_keys('COMPARTILHANDO UM TESTE')
+        self.driver.find_element(*self.share_popup_button).click()
+        time.sleep(10)
+
+
 
 
 

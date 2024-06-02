@@ -47,3 +47,5 @@ class TestBuzzPage:
         # DEIXAR UM LIKE NO POST CRIADO
         buzz_page.open_share_popup()
         assert buzz_page.is_share_popup_open(), 'POPUP NÃO ABRIU'
+        buzz_page.share_post()
+        assert buzz_page.check_post('COMPARTILHANDO UM TESTE'), 'Post não localizado'
