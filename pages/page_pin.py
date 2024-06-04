@@ -21,18 +21,19 @@ class PinPage(PageObject):
     
     table_employee_card_list  = (By.CSS_SELECTOR, '[role="row"]')
     
-    input_employee_name_filter = (By.XPATH, '//*[@class="oxd-autocomplete-text-input oxd-autocomplete-text-input--active"]//input')  
+    input_employee_name_filter  = (By.XPATH, '//*[@class="oxd-autocomplete-text-input oxd-autocomplete-text-input--active"]//input')  
     input_employee_id = (By.CSS_SELECTOR,'input.oxd-input.oxd-input--active:not([placeholder]):empty')
     input_employee_supervisor_name_filter = (By.CSS_SELECTOR, '.oxd-autocomplete-text-input.oxd-autocomplete-text-input--active input[placeholder]')
     input_employee_list = (By.CSS_SELECTOR, '[class="oxd-input-group oxd-input-field-bottom-space"]')
+    
     
     button_reset = (By.XPATH, '//button[normalize-space()="Reset"]')
     
     dropdown_list = (By.CSS_SELECTOR, '[class="oxd-icon bi-caret-down-fill oxd-select-text--arrow"]')
     dropdown_options = (By.CSS_SELECTOR, '[role="option"] span')
 
+    dropdown_filters = (By.CSS_SELECTOR, '[class="oxd-select-text oxd-select-text--active"]')
     list_employement_status = (By.CSS_SELECTOR, '[role="listbox"]')
-    
     # PIM - EMPLOYEE PROFILE DETAILS
     label_employee_name = (By.CSS_SELECTOR,'h6[class="oxd-text oxd-text--h6 --strong"]')
     input_employee_name = (By.NAME, 'firstName')
@@ -84,9 +85,9 @@ class PinPage(PageObject):
         employement.click()
 
     def get_employee_name(self):
-        # Tentei vários wait's, por algum motivo não funcionam, deixei o time.sleep
+        # Tentei vários wait's do expected_conditions, por algum motivo não funcionam, deixei o time.sleep mesmo
         # employee_name = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.label_employee_name))
-        time.sleep(10)
+        time.sleep(6)
         return self.driver.find_element(*self.label_employee_name).text
 
 
@@ -103,5 +104,19 @@ class PinPage(PageObject):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(buttons[0]))
 
         buttons[0].click()
- 
+    
+    def validate_all_filters_reset(self) -> bool:
+        employee_fields = self.driver.find_elements(*self.input_employee_list)
+        for index, employee_field in enumerate(employee_fields):
+            
+            if index in [2,3,5,6]:
+                child_element = employee_field.find_element(By.CLASS_NAME, "oxd-select-text-input")
+                if index == 3:
+                    assert 'Current Employees Only' in child_element.text
+                    continue
+
+                assert 'Select' in child_element.text            
+        
+        return True
+
         

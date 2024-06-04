@@ -1,4 +1,3 @@
-
 import time
 import pytest
 import logging
@@ -6,6 +5,9 @@ from pages.page_pin import PinPage
 
 class TestAbaPin:
     
+
+
+
     @pytest.mark.pin
     def test_edit_employee_name(self, logged_setup):
         page_pin = PinPage(logged_setup)
@@ -15,7 +17,7 @@ class TestAbaPin:
         page_pin.driver.refresh()
         assert "TEST" in page_pin.get_employee_name()
 
-    @pytest.mark.pin1
+    @pytest.mark.pin
     def test_reset_search(self, logged_setup):
         page_pin = PinPage(logged_setup)
         page_pin.go_to_pin_menu()
@@ -27,4 +29,7 @@ class TestAbaPin:
         page_pin.click_and_select_option_on_sub_unit()
         page_pin.click_and_select_option_on_title()
         page_pin.click_on_reset_button()
-        
+        assert page_pin.validate_all_filters_reset()
+    
+    @pytest.mark.pin
+    def test_reset_search(self, logged_setup):
