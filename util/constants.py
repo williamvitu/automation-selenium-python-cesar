@@ -1,6 +1,6 @@
 
 
-BASE_URL = R"https://opensource-demo.orangehrmlive.com/web/index.php/"
+BASE_URL = R"https://opensource-demo.orangehrmlive.com/web/index.php"
 URL_viewSystemUsers = R"https://opensource-demo.orangehrmlive.com/web/index.php/admin/saveSystemUser"
 
 

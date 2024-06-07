@@ -27,4 +27,6 @@ class TestAbaAdmin:
     def test_deletar_usuario(self, logged_setup):
         driver = logged_setup
         page_admin = AdminPage(driver)
+        page_admin.acessar_menu_admin()
         page_admin.deletar_usuario()
+        page_admin.validar_usuario_excluido()

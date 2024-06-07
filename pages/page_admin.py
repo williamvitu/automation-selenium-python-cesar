@@ -5,11 +5,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from util import constants
 from pages.page_object import PageObject
+import time
 
 class AdminPage(PageObject):
+    
+    lista_usuarios = (By.CSS_SELECTOR, '[class="oxd-table-card"]')
+    
+    base_url = f"{constants.BASE_URL}/admin/viewSystemUsers"
 
     def __init__(self, driver):
         super(AdminPage, self).__init__(driver=driver)
+
+    def acessar_menu_admin(self):
+        self.driver.get(self.base_url) 
 
     def clicar_menu_adm(self):
         self.driver.find_element(
@@ -82,6 +90,7 @@ class AdminPage(PageObject):
 
     def deletar_usuario(self):
         """Deletar usuario"""
+        
         self.driver.find_element(
             By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'
         ).click()
@@ -89,14 +98,34 @@ class AdminPage(PageObject):
         lista = self.driver.find_elements(
             By.XPATH, '//i[@class="oxd-icon bi-trash"]'
         )
-        lista[0].click()
+        lista[1].click()
     
+
         deletar_usuario = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin"]'))
         )
         deletar_usuario.click()
 
-        WebDriverWait(self.driver, 2).until(
-            EC.alert_is_present((By.XPATH, '//div[@id="oxd-toaster_1"]'))
-        )
+        # WebDriverWait(self.driver, 2).until(
+        #     EC.alert_is_present((By.XPATH, '//div[@id="oxd-toaster_1"]'))
+        # )
        
+    def retornar_nome_primeiro_usuario(self):
+
+        lista_usuarios = self.driver.find_elements(*self.lista_usuarios)
+        usuario = lista_usuarios[1]
+        nome_usuario = usuario.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')[1].text
+        print(nome_usuario)
+        return nome_usuario
+
+    def validar_usuario_excluido(self):
+        
+        dados_linha = self.driver.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')
+
+        usuario_excluido = self.retornar_nome_primeiro_usuario()
+
+        for dado in dados_linha:
+            
+            assert usuario_excluido != dado.text, f"Usuario {usuario_excluido} não deve ser igual a {dado.text} "
+
+        
