@@ -1,7 +1,3 @@
-import time
-
-import pytest
-
 from pages.page_buzz import PageBuzz
 
 
