@@ -119,7 +119,7 @@ class AdminPage(PageObject):
         return nome_usuario
 
     def validar_usuario_excluido(self):
-        
+
         dados_linha = self.driver.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')
 
         usuario_excluido = self.retornar_nome_primeiro_usuario()
