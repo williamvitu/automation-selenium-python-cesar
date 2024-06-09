@@ -107,7 +107,11 @@ class AdminPage(PageObject):
         usuario.click()
         self.driver.find_element(By. XPATH, '//*[@class="oxd-icon bi-trash oxd-button-icon"]').click()
         
-            
+    def verificar_qtd_usaurios(self):
+        qtd_atual = self.extrair_numero_da_string()
+        return qtd_atual
+
+    
         # lista = self.driver.find_elements(
         #     By.XPATH, '//i[@class="oxd-icon bi-trash"]'
         # )
