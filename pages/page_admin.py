@@ -1,4 +1,5 @@
 import random
+import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -88,44 +89,43 @@ class AdminPage(PageObject):
         )
         return elemento.text
 
-    def deletar_usuario(self):
-        """Deletar usuario"""
-        
-        self.driver.find_element(
-            By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a'
-        ).click()
+    def verificar_qtd_de_usuarios(self):
+        number_of_users = self.driver.find_element(By.XPATH, '//span[@class="oxd-text oxd-text--span"]')
+        return number_of_users.text
 
-        lista = self.driver.find_elements(
-            By.XPATH, '//i[@class="oxd-icon bi-trash"]'
-        )
-        lista[1].click()
+    def extrair_numero_da_string(self):
+        qtd_string = self.verificar_qtd_de_usuarios()
+        numero_string = re.findall(r'\d+', qtd_string)
+        qtd_usuarios = ''.join(numero_string)
+        return qtd_usuarios
     
-
-        deletar_usuario = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin"]'))
-        )
-        deletar_usuario.click()
-
-        # WebDriverWait(self.driver, 2).until(
-        #     EC.alert_is_present((By.XPATH, '//div[@id="oxd-toaster_1"]'))
+        # lista = self.driver.find_elements(
+        #     By.XPATH, '//i[@class="oxd-icon bi-trash"]'
         # )
-       
-    def retornar_nome_primeiro_usuario(self):
+        # lista[1].click()
 
-        lista_usuarios = self.driver.find_elements(*self.lista_usuarios)
-        usuario = lista_usuarios[1]
-        nome_usuario = usuario.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')[1].text
-        print(nome_usuario)
-        return nome_usuario
+        # deletar_usuario = WebDriverWait(self.driver, 10).until(
+        #     EC.visibility_of_element_located((By.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin"]'))
+        # )
+        # deletar_usuario.click()
 
-    def validar_usuario_excluido(self):
+    # def retornar_nome_primeiro_usuario(self):
+    #     lista_usuarios = self.driver.find_elements(*self.lista_usuarios)
+    #     usuario = lista_usuarios[1]
+    #     nome_usuario = usuario.find_elements(
+    #         By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]'
+    #     )[1].text
+    #     print(nome_usuario)
+    #     return nome_usuario
 
-        dados_linha = self.driver.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')
+    # def validar_usuario_excluido(self):
 
-        usuario_excluido = self.retornar_nome_primeiro_usuario()
+    #     dados_linha = self.driver.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')
 
-        for dado in dados_linha:
+    #     usuario_excluido = self.retornar_nome_primeiro_usuario()
+
+    #     for dado in dados_linha:
             
-            assert usuario_excluido != dado.text, f"Usuario {usuario_excluido} não deve ser igual a {dado.text} "
+    #         assert usuario_excluido == dado.text, f"Usuario {usuario_excluido} não deve ser igual a {dado.text} "
 
         
