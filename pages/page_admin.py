@@ -105,11 +105,9 @@ class AdminPage(PageObject):
         indice_aleatorio = random.randint(0, len(itens) - 1)
         usuario = itens[indice_aleatorio]
         usuario.click()
+        self.driver.find_element(By. XPATH, '//*[@class="oxd-icon bi-trash oxd-button-icon"]').click()
         
             
-            
-            
-    
         # lista = self.driver.find_elements(
         #     By.XPATH, '//i[@class="oxd-icon bi-trash"]'
         # )
