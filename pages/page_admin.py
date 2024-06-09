@@ -3,6 +3,7 @@ import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from time import sleep
 from util import constants
 from pages.page_object import PageObject
@@ -10,7 +11,7 @@ import time
 
 class AdminPage(PageObject):
     
-    lista_usuarios = (By.CSS_SELECTOR, '[class="oxd-table-card"]')
+    lista_usuarios = (By. XPATH, '//div[@class="oxd-table-card --mobile"]')
     
     base_url = f"{constants.BASE_URL}/admin/viewSystemUsers"
 
@@ -98,6 +99,16 @@ class AdminPage(PageObject):
         numero_string = re.findall(r'\d+', qtd_string)
         qtd_usuarios = ''.join(numero_string)
         return qtd_usuarios
+
+    def deletar_um_usuario(self):
+        itens = self.driver.find_elements(By.XPATH, '//*[@class="oxd-icon bi-trash"]')
+        indice_aleatorio = random.randint(0, len(itens) - 1)
+        usuario = itens[indice_aleatorio]
+        usuario.click()
+        
+            
+            
+            
     
         # lista = self.driver.find_elements(
         #     By.XPATH, '//i[@class="oxd-icon bi-trash"]'

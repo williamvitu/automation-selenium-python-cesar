@@ -1,3 +1,4 @@
+from time import sleep
 import pytest
 import logging
 from selenium.webdriver.support import expected_conditions as ec
@@ -28,8 +29,11 @@ class TestAbaAdmin:
         driver = logged_setup
         page_admin = AdminPage(driver)
         page_admin.acessar_menu_admin()
-        qtd = page_admin.verificar_qtd_de_usuarios()
-        qtd_usuarios = page_admin.extrair_numero_da_string()
-        print(qtd_usuarios)
+        page_admin.verificar_qtd_de_usuarios()
+        page_admin.extrair_numero_da_string()
+        sleep(5)
+        page_admin.deletar_um_usuario()
+        sleep(5)
+        # print(qtd_usuarios)
         # assert qtd == '(7) Records Found'
         # page_admin.validar_usuario_excluido()
