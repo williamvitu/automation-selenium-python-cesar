@@ -71,6 +71,24 @@ class AdminPage(PageObject):
             By.XPATH, "//button[@type='submit']"
         ).click()
 
+    def resetar_pesquisa_por_usuario(self):
+        
+        self.driver.find_element(
+            By.XPATH, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a/span'
+        ).click()
+
+        self.driver.find_element(
+            By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[1]/div/div[1]/div/div[2]/input'
+        ).send_keys(constants.NICK_NAME_ADMIN)
+
+        self.driver.find_element(
+            By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[2]/button[2]'
+        ).click()
+
+        self.driver.find_element(
+            By.XPATH, '//*[contains(@type, "button") and contains(@class, "oxd-button oxd-button--medium oxd-button--ghost")]'
+        ).click()
+
     def validar_fitro_do_admin(self):
         
         self.driver.find_element(
@@ -91,7 +109,8 @@ class AdminPage(PageObject):
         return elemento.text
 
     def verificar_qtd_de_usuarios(self):
-        number_of_users = self.driver.find_element(By.XPATH, '//span[@class="oxd-text oxd-text--span"]')
+        # number_of_users = self.driver.find_element(By.XPATH, '//span[@class="oxd-text oxd-text--span"]')
+        number_of_users = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/span')
         return number_of_users.text
 
     def extrair_numero_da_string(self):
@@ -110,35 +129,3 @@ class AdminPage(PageObject):
     def verificar_qtd_usaurios(self):
         qtd_atual = self.extrair_numero_da_string()
         return qtd_atual
-
-    
-        # lista = self.driver.find_elements(
-        #     By.XPATH, '//i[@class="oxd-icon bi-trash"]'
-        # )
-        # lista[1].click()
-
-        # deletar_usuario = WebDriverWait(self.driver, 10).until(
-        #     EC.visibility_of_element_located((By.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin"]'))
-        # )
-        # deletar_usuario.click()
-
-    # def retornar_nome_primeiro_usuario(self):
-    #     lista_usuarios = self.driver.find_elements(*self.lista_usuarios)
-    #     usuario = lista_usuarios[1]
-    #     nome_usuario = usuario.find_elements(
-    #         By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]'
-    #     )[1].text
-    #     print(nome_usuario)
-    #     return nome_usuario
-
-    # def validar_usuario_excluido(self):
-
-    #     dados_linha = self.driver.find_elements(By.CSS_SELECTOR, '[class="oxd-table-cell oxd-padding-cell"]')
-
-    #     usuario_excluido = self.retornar_nome_primeiro_usuario()
-
-    #     for dado in dados_linha:
-            
-    #         assert usuario_excluido == dado.text, f"Usuario {usuario_excluido} não deve ser igual a {dado.text} "
-
-        
