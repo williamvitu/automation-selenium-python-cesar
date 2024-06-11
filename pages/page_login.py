@@ -23,6 +23,3 @@ class LoginPage(PageObject):
         self.driver.find_element(*self.input_password).send_keys(constants.USER_PASSWORD)
         self.driver.find_element(*self.button_login).click()
         return self.driver
-     
-
-   
